@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="random-number" class="form-control" type="text">
+                    <button id="add-generate-pin" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="add-pin-number" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="input(7)">7</div>
+                              <div class="button" onclick="input(8)">8</div>
+                              <div class="button" onclick="input(9)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="input(4)">4</div>
+                              <div class="button" onclick="input(5)">5</div>
+                              <div class="button" onclick="input(6)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="input(1)">1</div>
+                              <div class="button" onclick="input(2)">2</div>
+                              <div class="button" onclick="input(3)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="removeBackNum()"><</div>
+                                <div class="button" onclick="input(0)">0</div>
+                                <div class="button" onclick="clearNum()">C</div>
+                            </div>
+                            <div>
+                                <button id="addSubmit" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left"><span id="tryLeft"> 3 </span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="pinUnmatched" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="pinMatched" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            <p id="clickGeneratePin" class="notify">❌ Press on GeneratePin Button</p>
+        </div>
+    </div>
+
+        <script>
+
+            document.getElementById('pinMatched').style.display ='none';
+            document.getElementById('pinUnmatched').style.display ='none';
+            document.getElementById('clickGeneratePin').style.display ='none';
+
+
+// ....................................  Add-generate-pin-Number-start..............................................
+
+                // Click Generate Pin button
+
+           document.getElementById('add-generate-pin').addEventListener("click", function(){
+
+        
+                    document.getElementById('random-number').value = Math.floor(1000 + Math.random()*9000);
+                    document.getElementById('clickGeneratePin').style.display ='none';
+                    document.getElementById('pinUnmatched').style.display ='none';
+           })
+
+//   ....................................  Add-generate-pin-Number-finish..............................................
+           
+//   ....................................  input-pin-Number-start..............................................
+         
+           
+            function input(num){
+
+                document.getElementById('add-pin-number').value += num;
+            }
+
+            // clear-input-pin-number.........
+
+            function clearNum(){
+
+                document.getElementById('add-pin-number').value = '';
+            }
+
+            //  remove-back-num.................
+
+            function removeBackNum(){
+
+                document.getElementById('add-pin-number').value = document.getElementById('add-pin-number').value.slice(0,-1);
+            }
+
+//   ....................................  input-pin-Number-finish..............................................
+
+//   ....................................  Submit button-Start..............................................
+
+
+                //   Click Submit Button
+
+              document.getElementById('addSubmit').addEventListener('click', function(){
+
+                      var generatePinValue = document.getElementById('random-number').value;
+                      var inputValue = document.getElementById('add-pin-number').value;
+                       
+                      if(generatePinValue == ''){
+
+                        document.getElementById('clickGeneratePin').style.display ='block';
+                   
+                      }
+  
+                      if(generatePinValue == inputValue && generatePinValue != ''){
+
+                        document.getElementById('pinMatched').style.display ='block';
+                        document.getElementById('pinUnmatched').style.display ='none';
+                        document.getElementById('clickGeneratePin').style.display ='none';
+                      }
+
+                      else{
+                        document.getElementById('pinUnmatched').style.display ='block';
+                        document.getElementById('pinMatched').style.display ='none';
+                        
+                      }
+
+                    //   3 tryLeft
+
+                      if(generatePinValue != inputValue){
+
+                        var tryLeftValue = document.getElementById('tryLeft').innerText;
+                        var result = tryLeftValue - 1;
+                        document.getElementById('tryLeft').innerText = result;
+
+                        if(result == 0){
+
+                            document.getElementById('addSubmit').disabled = true;
+                            alert("Sorry! Your Pin is blocked. You pressed 3 times wrong number. Reload web-page and try again.");
+                        }
+
+                      }
+
+
+              })
+
+ //   ....................................  Submit button-Finish..............................................
+
+              
+        </script>
+
+
+</body>
+</html>
